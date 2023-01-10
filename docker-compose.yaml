@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+
+  rabbitmq-svc:
+    container_name: rabbitmq-svc
+    image: rabbitmq:3.8-management-alpine
+    restart: "no"
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # spring-app:
+  #   container_name: spring-app
+  #   build: .
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     RABBITMQ_HOST: rabbitmq-svc
+  #   depends_on:
+  #     - rabbitmq-svc
+
+  producer-app:
+    container_name: producer-app
+    image: mertcakmak2/spring-rabbit-producer
+    # build: .
+    ports:
+      - "8080:8080"
+    environment:
+      RABBITMQ_HOST: rabbitmq-svc
+    depends_on:
+      - rabbitmq-svc
+
+  consumer-app:
+    container_name: consumer-app
+    image: mertcakmak2/spring-rabbit-consumer
+    # build: .
+    ports:
+      - "8081:8081"
+    environment:
+      RABBITMQ_HOST: rabbitmq-svc
+    depends_on:
+      - rabbitmq-svc

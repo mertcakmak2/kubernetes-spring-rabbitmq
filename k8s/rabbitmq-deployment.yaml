@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: project
+  name: rabbitmq
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        -
+          image: "docker.io/rabbitmq:management"
+          imagePullPolicy: Always
+          name: rabbitmq
+          ports:
+            -
+              containerPort: 15672
+              name: http-port
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "root"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "root"

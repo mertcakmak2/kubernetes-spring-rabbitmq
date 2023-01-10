@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-producer-service
+  namespace: project
+spec:
+  selector:
+    app: spring-producer
+  ports:
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-producer
+  namespace: project
+spec:
+  selector:
+    matchLabels:
+      app: spring-producer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spring-producer
+    spec:
+      containers:
+        - name: spring-producer
+          image: mertcakmak2/spring-rabbit-producer
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RABBITMQ_HOST
+              value: "rabbitmq"
