@@ -36,6 +36,5 @@ spec:
           env:
             - name: RABBITMQ_HOST
               value: "rabbitmq"
-          env:
             - name: JAEGER_HOST
               value: "jaeger-collector"
