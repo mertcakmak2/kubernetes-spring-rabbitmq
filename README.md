@@ -11,3 +11,17 @@ Consumer Replica 2
 
 Consumer Replica 3
 ![image](https://user-images.githubusercontent.com/21373505/211490569-af05ab3f-57f1-4ebc-a209-bee42f385ff5.png)
+
+## Jaeger deployment on Kubernetes
+
+helm repo add my-repo [https://charts.bitnami.com/bitnami](https://charts.bitnami.com/bitnami)
+
+helm install jaeger --namespace project my-repo/jaeger
+
+kubectl patch svc jaeger-query -n project -p '{"spec": {"type": "NodePort"}}’
+
+kubectl exec -it jaeger-cassandra-0 -n project bash
+
+cqlsh -u bn_jaeger -p IJo2Tax3N1
+
+![image](https://user-images.githubusercontent.com/21373505/211787773-193f22b4-0d17-4753-8e0a-3a890db79a74.png)
